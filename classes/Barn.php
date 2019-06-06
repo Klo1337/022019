@@ -1,41 +1,36 @@
 <?php
 	class Barn {
 
-		private $Animals = [];
-		private $registry = 0;
-		private $Production = [];
+        private $registry = 0;
+        private $Animals = [];
+        private $Production = [];
 
-		public function __construct(){
-			$this->Production = ['eggs' => 0, 'milk' => 0];
-		}
+        public function addAnimal(Animal $animal){
+            array_push($this->Animals, $animal);
+        }
 
-		public function addAnimal(Animal $animal){
-			array_push($this->Animals, $animal);
-		}
+        public function getUniqId(){
+            return $this->registry++;
+        }
 
-		public function getUniqId(){
-			return $this->registry++;
-		}
+        public function collect(){
+            foreach ($this->Animals as $key => $animal) {
+                $this->putInStorage($animal->collect());
+            }
 
-		public function collect(){
-			$eggs = 0;
-			$milk = 0;
-			foreach ($this->Animals as $key => $animal) {
-				if($animal instanceof Cow){
-					$milk += $animal->collect();
-				}
-				else if($animal instanceof Chiken)  {
-					$eggs += $animal->collect();
-				}
-			}
+            return $this->Production;
+        }
 
-			$this->Production = [
-				'eggs' => $eggs + $this->Production['eggs'], 
-				'milk' => $milk + $this->Production['milk']
-			];
+        private function putInStorage($incoming){
+            foreach($incoming as $productType => $productValue){
 
-			return $this->Production;
-		}
-	}
+                if (!array_key_exists($productType, $this->Production)) {
+                    $this->Production[$productType] = 0;
+                }
+
+                $this->Production[$productType] += $productValue;
+            }
+        }
+    }
 
 

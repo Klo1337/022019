@@ -1,5 +1,5 @@
 <?php
-	class Animal {
+	abstract class Animal {
 
 		private $id;
 		
@@ -10,9 +10,18 @@
 		public function getId(){
 			return $this->id;
 		}
+
+		abstract protected function getProduction();
+
+		function collect(){
+			$collectedProduction = [];
 	
-		public function collect() {
-			return 0;
+			foreach($this->getProduction() as $type => $limits){
+				$collectedProduction[$type] = rand($limits['min'], $limits['max']);
+			}
+	
+			return $collectedProduction;
 		}
+
 	}
 
