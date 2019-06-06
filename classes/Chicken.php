@@ -3,7 +3,7 @@
 
 		function getProduction(){
 			return [
-				'Eggs' => ['min' => 80, 'max' => 12],
+				'Eggs' => ['min' => 0, 'max' => 1],
 			];
 		}
 		
